@@ -12,13 +12,13 @@ import java.time.LocalDate;
 public class DialogController {
 
     @FXML
-    private TextField shortDescriptionField;
+    public TextField shortDescriptionField;
     @FXML
-    private TextArea detailsArea;
+    public TextArea detailsArea;
     @FXML
-    private DatePicker deadlinePicker;
+    public DatePicker deadlinePicker;
 
-    public TodoItem processResults(){
+    public TodoItem addNewItemInDialog(){
 
         String shortDescription = shortDescriptionField.getText().trim();
         String details = detailsArea.getText().trim();
@@ -27,5 +27,12 @@ public class DialogController {
         TodoItem newItem = new TodoItem(shortDescription, details, deadLineValue);
         TodoData.getInstance().addTodoItem(newItem);
         return newItem;
+    }
+
+    public void editExistingItemInDialog(TodoItem item){
+
+        item.setShortDescription(shortDescriptionField.getText().trim());
+        item.setDetails(detailsArea.getText().trim());
+        item.setDeadLine(deadlinePicker.getValue());
     }
 }

@@ -51,6 +51,7 @@ public class Controller {
     public void initialize() {
 
         listContextMenu = new ContextMenu();
+
         MenuItem deleteMenuItem = new MenuItem("Delete");
         deleteMenuItem.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -173,10 +174,40 @@ public class Controller {
         Optional<ButtonType> result = dialog.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             DialogController controller = fxmlLoader.getController();
-            TodoItem newItem = controller.processResults();
+            TodoItem newItem = controller.addNewItemInDialog();
             todoListView.getSelectionModel().select(newItem);
         }
     }
+
+    public void showNewItemDialog(TodoItem item) {
+        Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.initOwner(mainBorderPane.getScene().getWindow());
+        dialog.setTitle("Edit Todo Item");
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("todoItemDialog.fxml"));
+
+        try {
+            dialog.getDialogPane().setContent(fxmlLoader.load());
+        } catch (IOException e) {
+            System.out.println("Couldn't load the dialog");
+            e.getStackTrace();
+            return;
+        }
+
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
+
+        DialogController controller = fxmlLoader.getController();
+        controller.shortDescriptionField.setText(item.getShortDescription());
+        controller.detailsArea.setText(item.getDetails());
+        controller.deadlinePicker.setValue(item.getDeadLine());
+
+        Optional<ButtonType> result = dialog.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            controller.editExistingItemInDialog(item);
+        }
+    }
+
 
     @FXML
     public void handleKeyPressed(KeyEvent keyEvent){
@@ -207,7 +238,7 @@ public class Controller {
     }
 
     public void editItem(TodoItem item){
-
+        showNewItemDialog(item);
     }
 
     @FXML
