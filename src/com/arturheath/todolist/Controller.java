@@ -59,7 +59,17 @@ public class Controller {
                 deleteItem(item);
             }
         });
-        listContextMenu.getItems().addAll(deleteMenuItem);
+
+        MenuItem editMenuItem = new MenuItem("Edit");
+        editMenuItem.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                TodoItem item = todoListView.getSelectionModel().getSelectedItem();
+                editItem(item);
+            }
+        });
+
+        listContextMenu.getItems().addAll(deleteMenuItem, editMenuItem);
 
         todoListView.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
             @Override
@@ -194,6 +204,10 @@ public class Controller {
         if (result.isPresent() && result.get() == ButtonType.OK) {
             TodoData.getInstance().deleteTodoItem(item);
         }
+    }
+
+    public void editItem(TodoItem item){
+
     }
 
     @FXML
