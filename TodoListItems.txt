@@ -1,0 +1,7 @@
+pinguin	call Nikita	14-10-2018	
+RAM	check RAM's model your laptop needs	18-10-2018	
+aliexpress	check when the sales on Ali willl be	16-10-2018	
+New Item	This is the new todo item	18-10-2018	
+One more test	aaaaaaand?	07-10-2018	
+one more	something here	14-10-2018	
+and more	test	17-10-2018	
